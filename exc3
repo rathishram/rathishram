@@ -1,0 +1,85 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const userForm = document.getElementById("userForm");
+    const userList = document.getElementById("userList");
+
+    // Event listener for form submission
+    userForm.addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get user input values
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+
+        // Create a user object
+        const user = {
+            name: name,
+            email: email
+        };
+
+        // Retrieve existing user data from local storage (if any)
+        const existingUsersJSON = localStorage.getItem("users");
+
+        // Parse the existing data into an array or initialize an empty array
+        const existingUsers = existingUsersJSON ? JSON.parse(existingUsersJSON) : [];
+
+        // Add the new user object to the array
+        existingUsers.push(user);
+
+        // Convert the updated array of user objects to JSON format
+        const updatedUsersJSON = JSON.stringify(existingUsers);
+
+        // Store the updated user data in local storage
+        localStorage.setItem("users", updatedUsersJSON);
+
+        // Clear the form inputs
+        userForm.reset();
+
+        // Provide feedback to the user (optional)
+        alert("User details saved in local storage.");
+
+        // Update the user list in the UI
+        updateUserList(existingUsers);
+    });
+
+    // Function to update the user list in the UI
+    function updateUserList(users) {
+        userList.innerHTML = ""; // Clear the existing list
+
+        users.forEach(function(user, index) {
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+                <span>${user.name} (${user.email})</span>
+                <button class="edit-button" data-index="${index}">Edit</button>
+                <button class="delete-button" data-index="${index}">Delete</button>
+            `;
+
+            // Event listener for edit button
+            const editButton = listItem.querySelector(".edit-button");
+            editButton.addEventListener("click", function() {
+                const userIndex = this.getAttribute("data-index");
+                const newEmail = prompt("Enter the new email address:");
+                if (newEmail !== null) {
+                    users[userIndex].email = newEmail; // Update the email
+                    localStorage.setItem("users", JSON.stringify(users));
+                    updateUserList(users);
+                }
+            });
+
+            // Event listener for delete button
+            const deleteButton = listItem.querySelector(".delete-button");
+            deleteButton.addEventListener("click", function() {
+                const userIndex = this.getAttribute("data-index");
+                users.splice(userIndex, 1); // Remove the user from the array
+                localStorage.setItem("users", JSON.stringify(users));
+                updateUserList(users);
+            });
+
+            userList.appendChild(listItem);
+        });
+    }
+
+    // Initial rendering of the user list
+    const existingUsersJSON = localStorage.getItem("users");
+    const existingUsers = existingUsersJSON ? JSON.parse(existingUsersJSON) : [];
+    updateUserList(existingUsers);
+});
