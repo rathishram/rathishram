@@ -1,0 +1,55 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById("searchInput");
+    const itemList = document.getElementById("itemList");
+
+    // Sample data (you can replace this with your own data)
+    const items = [
+        { name: "Item 1", description: "Description 1" },
+        { name: "Item 2", description: "Description 2" },
+        { name: "Item 3", description: "Description 3" }
+    ];
+
+    // Function to create list items
+    function createListItem(item) {
+        const li = document.createElement("li");
+        const name = document.createElement("span");
+        const description = document.createElement("p");
+
+        name.textContent = item.name;
+        description.textContent = item.description;
+
+        li.appendChild(name);
+        li.appendChild(description);
+        itemList.appendChild(li);
+    }
+
+    // Function to filter items based on search input
+    function filterItems(searchText) {
+        const filteredItems = items.filter(item => {
+            const itemName = item.name.toLowerCase();
+            const itemDescription = item.description.toLowerCase();
+            const searchLower = searchText.toLowerCase();
+
+            return itemName.includes(searchLower) || itemDescription.includes(searchLower);
+        });
+
+        // Clear the current list
+        itemList.innerHTML = "";
+
+        // Create and display filtered items
+        filteredItems.forEach(item => {
+            createListItem(item);
+        });
+    }
+
+    // Initial rendering of items
+    items.forEach(item => {
+        createListItem(item);
+    });
+
+    // Event listener for search input
+    searchInput.addEventListener("input", function() {
+        const searchText = this.value;
+        filterItems(searchText);
+    });
+});
