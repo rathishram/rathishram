@@ -2,40 +2,29 @@
 <html>
 <head>
     <title>Sample Page</title>
+    <style>
+        /* CSS style for odd list items */
+        .item:nth-child(odd) {
+            background-color: green;
+        }
+    </style>
 </head>
 <body>
     <ul>
         <li class="item">List Item 1</li>
         <li class="item">List Item 2</li>
         <li class="item">List Item 3</li>
+        <li class="item">List Item 4</li>
+        <li class="item">List Item 5</li>
     </ul>
 
-    <!-- JavaScript code to add a new li element -->
+    <!-- JavaScript code to change the font color of the 2nd item -->
     <script>
-        // Create a new li element
-        var newListItem = document.createElement("li");
+        // Select the 2nd item by using querySelectorAll
+        var secondItem = document.querySelectorAll(".item")[1];
 
-        // Set the text content of the new li element
-        newListItem.textContent = "New List Item";
-
-        // Append the new li element to the ul
-        var ulElement = document.getElementsByTagName("ul")[0];
-        ulElement.appendChild(newListItem);
-    </script>
-
-    <!-- JavaScript code to edit the new li element -->
-    <script>
-        // Edit the new li element using getElementsByClassName
-        var items = document.getElementsByClassName("item");
-        if (items.length > 0) {
-            items[items.length - 1].textContent = "Edited Item (by class)";
-        }
-
-        // Edit the new li element using getElementByTagName
-        var liElements = document.getElementsByTagName("li");
-        if (liElements.length > 0) {
-            liElements[liElements.length - 1].textContent = "Edited Item (by tag)";
-        }
+        // Change the font color of the 2nd item to green
+        secondItem.style.color = "green";
     </script>
 </body>
 </html>
