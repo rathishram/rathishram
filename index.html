@@ -2,29 +2,36 @@
 <html>
 <head>
     <title>Sample Page</title>
-    <style>
-        /* CSS style for odd list items */
-        .item:nth-child(odd) {
-            background-color: green;
-        }
-    </style>
 </head>
 <body>
     <ul>
-        <li class="item">List Item 1</li>
-        <li class="item">List Item 2</li>
-        <li class="item">List Item 3</li>
-        <li class="item">List Item 4</li>
-        <li class="item">List Item 5</li>
+        <li id="itemLister">Item Lister</li>
+        <li>Item 1</li>
+        <li>Item 2</li>
     </ul>
 
-    <!-- JavaScript code to change the font color of the 2nd item -->
+    <!-- JavaScript code to manipulate the DOM -->
     <script>
-        // Select the 2nd item by using querySelectorAll
-        var secondItem = document.querySelectorAll(".item")[1];
+        // Get the parent element of the list
+        var parentElement = document.querySelector('ul');
 
-        // Change the font color of the 2nd item to green
-        secondItem.style.color = "green";
+        // Create a new list item element
+        var newItem = document.createElement('li');
+
+        // Create a text node with the content "Hello World"
+        var textNode = document.createTextNode('Hello World ');
+
+        // Append the text node before "Item Lister"
+        parentElement.insertBefore(textNode, parentElement.firstElementChild);
+
+        // Append the new list item before "Item 1"
+        parentElement.insertBefore(newItem, parentElement.firstElementChild.nextElementSibling);
+
+        // Set the text content of the new list item
+        newItem.textContent = 'Hello World Item';
+
+        // Set an attribute (e.g., class) for the new list item
+        newItem.setAttribute('class', 'item');
     </script>
 </body>
 </html>
